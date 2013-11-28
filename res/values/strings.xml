@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MobVarejo</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_venda">Venda</string>
+    <string name="title_sistema">Sistema</string>
+    <string name="title_conf">Configurações</string>
+    <string name="btn2">Button</string>
+    <string name="autocompletetextview">AutoCompleteTextView</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
