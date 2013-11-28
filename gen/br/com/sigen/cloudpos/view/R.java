@@ -25,7 +25,7 @@ public final class R {
         public static final int table_row=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f080010;
+        public static final int action_settings=0x7f08000f;
         public static final int btnLayout1=0x7f080001;
         public static final int btnLayout2=0x7f080008;
         public static final int button1=0x7f080002;
@@ -36,12 +36,11 @@ public final class R {
         public static final int button7=0x7f080004;
         public static final int container=0x7f080000;
         public static final int layoutItensVenda=0x7f080006;
-        public static final int layoutProdutos=0x7f08000e;
         public static final int layoutTotalBar=0x7f080007;
+        public static final int listViewProdutos=0x7f08000d;
         public static final int pesquisarProdutoField=0x7f08000c;
-        public static final int scrollView1=0x7f08000d;
         public static final int scrollView2=0x7f080005;
-        public static final int section_label=0x7f08000f;
+        public static final int section_label=0x7f08000e;
     }
     public static final class layout {
         public static final int activity_pos_app=0x7f030000;

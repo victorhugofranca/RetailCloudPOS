@@ -1,9 +1,12 @@
 package br.com.sigen.cloudpos.view;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,11 +18,13 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -123,16 +128,50 @@ public class PosAppActivity extends FragmentActivity implements
 	}
 
 	private void configProdutosTable() {
-		produtosTable = new SigenTable(getBaseContext());
-		produtosTable.addListener(this);
-		produtosTable.setHeader(new String[] { "Cod", "Produto", "Preço" });
+		// produtosTable = new SigenTable(getBaseContext());
+		// produtosTable.addListener(this);
+		// produtosTable.setHeader(new String[] { "Cod", "Produto", "Preço" });
+		//
+		// List<Produto> produtos = ProdutoManager.getInstance().find(
+		// new Produto());
+		// produtosTable.addAllRows(produtos);
+		//
+		// LinearLayout layout = findProdutosLayout();
+		// layout.addView(produtosTable);
 
-		List<Produto> produtos = ProdutoManager.getInstance().find(
-				new Produto());
-		produtosTable.addAllRows(produtos);
+		final ListView listView = (ListView) findViewById(R.id.listViewProdutos);
+		String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
+				"Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
+				"Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
+				"OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
+				"Android", "iPhone", "WindowsMobile" };
+		final ArrayList<String> list = new ArrayList<String>();
+		for (int i = 0; i < values.length; ++i) {
+			list.add(values[i]);
+		}
+		final StableArrayAdapter adapter = new StableArrayAdapter(this,
+				android.R.layout.simple_list_item_1, list);
+		listView.setAdapter(adapter);
 
-		LinearLayout layout = findProdutosLayout();
-		layout.addView(produtosTable);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view,
+					int position, long id) {
+				final String item = (String) parent.getItemAtPosition(position);
+				view.animate().setDuration(2000).alpha(0)
+						.withEndAction(new Runnable() {
+							@Override
+							public void run() {
+								list.remove(item);
+								adapter.notifyDataSetChanged();
+								view.setAlpha(1);
+							}
+						});
+			}
+
+		});
+
 	}
 
 	private void configItensVendaTable() {
@@ -153,10 +192,10 @@ public class PosAppActivity extends FragmentActivity implements
 		return layout;
 	}
 
-	private LinearLayout findProdutosLayout() {
-		LinearLayout layout = (LinearLayout) findViewById(R.id.layoutProdutos);
-		return layout;
-	}
+	// private LinearLayout findProdutosLayout() {
+	// LinearLayout layout = (LinearLayout) findViewById(R.id.layoutProdutos);
+	// return layout;
+	// }
 
 	private LinearLayout findTotalBarLayout() {
 		LinearLayout layout = (LinearLayout) findViewById(R.id.layoutTotalBar);
@@ -274,5 +313,30 @@ public class PosAppActivity extends FragmentActivity implements
 		initBusinessObjects();
 		itensVendaTable.removeAllRows();
 		totalTextView.setText(String.valueOf(venda.getValorTotal()));
+	}
+
+	private class StableArrayAdapter extends ArrayAdapter<String> {
+
+		HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+
+		public StableArrayAdapter(Context context, int textViewResourceId,
+				List<String> objects) {
+			super(context, textViewResourceId, objects);
+			for (int i = 0; i < objects.size(); ++i) {
+				mIdMap.put(objects.get(i), i);
+			}
+		}
+
+		@Override
+		public long getItemId(int position) {
+			String item = getItem(position);
+			return mIdMap.get(item);
+		}
+
+		@Override
+		public boolean hasStableIds() {
+			return true;
+		}
+
 	}
 }

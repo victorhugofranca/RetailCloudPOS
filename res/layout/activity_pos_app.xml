@@ -113,18 +113,12 @@
                     <requestFocus />
                 </AutoCompleteTextView>
 
-                <ScrollView
-                    android:id="@+id/scrollView1"
+                <ListView
+                    android:id="@+id/listViewProdutos"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="wrap_content" >
+                </ListView>
 
-                    <LinearLayout
-                        android:id="@+id/layoutProdutos"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-                </ScrollView>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
