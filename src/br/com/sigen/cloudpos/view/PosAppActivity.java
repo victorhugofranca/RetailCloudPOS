@@ -29,7 +29,9 @@ public class PosAppActivity extends FragmentActivity {
 
 	private ProdutosArrayAdapter produtosArrayAdapter;
 	private ItensVendaArrayAdapter itensVendaArrayAdapter;
+
 	private ListView listViewItensVenda;
+	private TextView totalTextView;
 
 	private Venda venda;
 
@@ -49,6 +51,8 @@ public class PosAppActivity extends FragmentActivity {
 	}
 
 	private void initVisualComponents() {
+		configTotalTextField();
+
 		configButtons();
 
 		configItensVendaTable();
@@ -56,6 +60,11 @@ public class PosAppActivity extends FragmentActivity {
 		configProdutosTable();
 
 		configSearchProdutosField();
+	}
+
+	private void configTotalTextField() {
+		totalTextView = (TextView) findViewById(R.id.textValorTotal);
+		totalTextView.setText(String.valueOf(venda.getValorTotal()));
 	}
 
 	private void configButtons() {
@@ -114,7 +123,7 @@ public class PosAppActivity extends FragmentActivity {
 						itensVendaArrayAdapter.getCount());
 				venda.setValorTotal(venda.getValorTotal().add(
 						itemVenda.getValorTotal()));
-				// totalTextView.setText(String.valueOf(venda.getValorTotal()));
+				totalTextView.setText(String.valueOf(venda.getValorTotal()));
 
 				listViewItensVenda.setSelection(itensVendaArrayAdapter
 						.getCount() - 1);
@@ -173,7 +182,7 @@ public class PosAppActivity extends FragmentActivity {
 	private void criarNovaVenda() {
 		initBusinessObjects();
 		itensVendaArrayAdapter.clear();
-		// totalTextView.setText(String.valueOf(venda.getValorTotal()));
+		totalTextView.setText(String.valueOf(venda.getValorTotal()));
 	}
 
 }
