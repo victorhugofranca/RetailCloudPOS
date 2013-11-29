@@ -33,7 +33,6 @@ public class ProdutosArrayAdapter extends ArrayAdapter<Produto> implements
 
 		View rowView = inflater.inflate(R.layout.produto_row_layout, parent,
 				false);
-
 		TextView textView = (TextView) rowView.findViewById(R.id.lblDescricao);
 		textView.setText(values.get(position).getDescricao());
 
@@ -51,6 +50,11 @@ public class ProdutosArrayAdapter extends ArrayAdapter<Produto> implements
 	@Override
 	public int getCount() {
 		return values.size();
+	}
+	
+	@Override
+	public Produto getItem(int position) {
+		return values.get(position);
 	}
 
 	@Override
