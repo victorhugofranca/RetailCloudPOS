@@ -1,12 +1,9 @@
 package br.com.sigen.cloudpos.view;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -28,6 +26,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import br.com.sigen.cloudpos.business.ProdutoManager;
 import br.com.sigen.cloudpos.entity.Produto;
 import br.com.sigen.cloudpos.entity.Venda;
@@ -37,7 +36,8 @@ import br.com.sigen.cloudpos.view.components.SigenTableListener;
 public class PosAppActivity extends FragmentActivity implements
 		ActionBar.OnNavigationListener, SigenTableListener {
 
-	private SigenTable produtosTable;
+	private ProdutosArrayAdapter produtosArrayAdapter;
+
 	private SigenTable itensVendaTable;
 	private TextView totalTextView;
 
@@ -102,15 +102,9 @@ public class PosAppActivity extends FragmentActivity implements
 		pesquisarProdutosField.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
-				Produto filter = new Produto();
-				filter.setDescricao(String.valueOf(arg0));
-				List<Produto> produtos = ProdutoManager.getInstance().find(
-						filter);
-				produtosTable.removeAllRows();
-
-				produtosTable.addAllRows(produtos);
+			public void onTextChanged(CharSequence constraint, int arg1,
+					int arg2, int arg3) {
+				produtosArrayAdapter.getFilter().filter(constraint);
 			}
 
 			@Override
@@ -128,48 +122,24 @@ public class PosAppActivity extends FragmentActivity implements
 	}
 
 	private void configProdutosTable() {
-		// produtosTable = new SigenTable(getBaseContext());
-		// produtosTable.addListener(this);
-		// produtosTable.setHeader(new String[] { "Cod", "Produto", "Preço" });
-		//
-		// List<Produto> produtos = ProdutoManager.getInstance().find(
-		// new Produto());
-		// produtosTable.addAllRows(produtos);
-		//
-		// LinearLayout layout = findProdutosLayout();
-		// layout.addView(produtosTable);
-
 		final ListView listView = (ListView) findViewById(R.id.listViewProdutos);
-		String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-				"Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-				"Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-				"OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-				"Android", "iPhone", "WindowsMobile" };
-		final ArrayList<String> list = new ArrayList<String>();
-		for (int i = 0; i < values.length; ++i) {
-			list.add(values[i]);
-		}
-		final StableArrayAdapter adapter = new StableArrayAdapter(this,
-				android.R.layout.simple_list_item_1, list);
-		listView.setAdapter(adapter);
 
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		List<Produto> produtos = ProdutoManager.getInstance().find(
+				new Produto());
 
+		produtosArrayAdapter = new ProdutosArrayAdapter(getBaseContext(),
+				produtos);
+
+		listView.setAdapter(produtosArrayAdapter);
+
+		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, final View view,
+			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				final String item = (String) parent.getItemAtPosition(position);
-				view.animate().setDuration(2000).alpha(0)
-						.withEndAction(new Runnable() {
-							@Override
-							public void run() {
-								list.remove(item);
-								adapter.notifyDataSetChanged();
-								view.setAlpha(1);
-							}
-						});
+				Toast.makeText(getApplicationContext(),
+						"Click ListItem Number " + position, Toast.LENGTH_LONG)
+						.show();
 			}
-
 		});
 
 	}
@@ -191,11 +161,6 @@ public class PosAppActivity extends FragmentActivity implements
 		LinearLayout layout = (LinearLayout) findViewById(R.id.layoutItensVenda);
 		return layout;
 	}
-
-	// private LinearLayout findProdutosLayout() {
-	// LinearLayout layout = (LinearLayout) findViewById(R.id.layoutProdutos);
-	// return layout;
-	// }
 
 	private LinearLayout findTotalBarLayout() {
 		LinearLayout layout = (LinearLayout) findViewById(R.id.layoutTotalBar);
@@ -315,28 +280,4 @@ public class PosAppActivity extends FragmentActivity implements
 		totalTextView.setText(String.valueOf(venda.getValorTotal()));
 	}
 
-	private class StableArrayAdapter extends ArrayAdapter<String> {
-
-		HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-		public StableArrayAdapter(Context context, int textViewResourceId,
-				List<String> objects) {
-			super(context, textViewResourceId, objects);
-			for (int i = 0; i < objects.size(); ++i) {
-				mIdMap.put(objects.get(i), i);
-			}
-		}
-
-		@Override
-		public long getItemId(int position) {
-			String item = getItem(position);
-			return mIdMap.get(item);
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			return true;
-		}
-
-	}
 }

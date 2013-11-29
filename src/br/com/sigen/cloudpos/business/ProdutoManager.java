@@ -24,51 +24,51 @@ public class ProdutoManager {
 	public List<Produto> find(Produto filter) {
 		List<Produto> persistedList = new ArrayList<Produto>();
 
-		persistedList.add(new Produto("001", "Coca-cola 330ml", new BigDecimal(
-				"3.30")));
-		persistedList.add(new Produto("001", "Guaran‡ Ant‡rcica 330ml",
+		persistedList.add(new Produto("001", "Coca-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Sprite 330ml", new BigDecimal(
-				"3.30")));
-		persistedList.add(new Produto("001", "Fanta Laranja 330ml",
+		persistedList.add(new Produto("001", "Guaran‡ Ant‡rcica 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Fanta Uva 330ml", new BigDecimal(
-				"3.30")));
-		persistedList.add(new Produto("001", "Soda Lim‹o 330ml",
+		persistedList.add(new Produto("001", "Sprite 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Kuat 330ml", new BigDecimal(
-				"3.30")));
-		persistedList.add(new Produto("001", "Coca-cola zero 330ml",
+		persistedList.add(new Produto("001", "Fanta Laranja 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Fanta Uva 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Soda Lim‹o 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Kuat 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Coca-cola zero 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml",
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
+				new BigDecimal("3.30")));
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
+				new BigDecimal("3.30")));
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
+				new BigDecimal("3.30")));
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
+				new BigDecimal("3.30")));
+		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
 				new BigDecimal("3.30")));
 
 		List<Produto> returnList = new ArrayList<Produto>();

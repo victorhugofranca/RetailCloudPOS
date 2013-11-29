@@ -8,14 +8,18 @@ public class Produto {
 
 	private String descricao;
 
+	private String unidadeMedida;
+
 	private BigDecimal valorUnitario;
-	
+
 	public Produto() {
 	}
 
-	public Produto(String codigo, String descricao, BigDecimal valorUnitario) {
+	public Produto(String codigo, String descricao, String unidadeMedida,
+			BigDecimal valorUnitario) {
 		this.codigo = codigo;
 		this.descricao = descricao;
+		this.unidadeMedida = unidadeMedida;
 		this.valorUnitario = valorUnitario;
 	}
 
@@ -41,5 +45,13 @@ public class Produto {
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
+	}
+
+	public String getUnidadeMedida() {
+		return unidadeMedida;
+	}
+
+	public void setUnidadeMedida(String unidadeMedida) {
+		this.unidadeMedida = unidadeMedida;
 	}
 }
