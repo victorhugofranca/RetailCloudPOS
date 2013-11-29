@@ -23,25 +23,18 @@
                 android:background="#D3D3D3" >
 
                 <Button
-                    android:id="@+id/button1"
+                    android:id="@+id/btnNovaVenda"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nova Venda" />
 
                 <Button
-                    android:id="@+id/button6"
+                    android:id="@+id/btnDescontoVenda"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
-
-                <Button
-                    android:id="@+id/button7"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:text="Desconto" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,21 +85,7 @@
                 android:background="#D3D3D3" >
 
                 <Button
-                    android:id="@+id/button2"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pesquisar" />
-
-                <Button
                     android:id="@+id/button3"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
-
-                <Button
-                    android:id="@+id/button4"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

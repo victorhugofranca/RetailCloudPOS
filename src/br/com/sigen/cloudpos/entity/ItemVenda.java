@@ -19,6 +19,12 @@ public class ItemVenda {
 		this.valorTotal = quantidade.multiply(produto.getValorUnitario());
 	}
 
+	public void realizarDesconto(BigDecimal valorDesconto) {
+		produto.setValorUnitario(produto.getValorUnitario().subtract(
+				valorDesconto));
+		setValorTotal(produto.getValorUnitario().multiply(getQuantidade()));
+	}
+
 	public String getIndice() {
 		return indice;
 	}

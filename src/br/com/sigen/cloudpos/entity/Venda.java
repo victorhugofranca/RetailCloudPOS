@@ -6,6 +6,10 @@ public class Venda {
 
 	private BigDecimal valorTotal;
 
+	public void realizarDesconto(BigDecimal valorDesconto) {
+		setValorTotal(getValorTotal().subtract(valorDesconto));
+	}
+
 	public BigDecimal getValorTotal() {
 		return valorTotal;
 	}

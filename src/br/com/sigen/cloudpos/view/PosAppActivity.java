@@ -4,10 +4,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -21,6 +24,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import br.com.sigen.cloudpos.business.ProdutoManager;
@@ -37,6 +41,7 @@ public class PosAppActivity extends FragmentActivity {
 	private TextView totalTextView;
 
 	private static int CONTEXT_MENU_ITEM_EXCLUIR = 0;
+	private static int CONTEXT_MENU_ITEM_DESCONTO = 1;
 
 	private Venda venda;
 
@@ -73,11 +78,19 @@ public class PosAppActivity extends FragmentActivity {
 	}
 
 	private void configButtons() {
-		Button btnNovaVenda = (Button) findViewById(R.id.button1);
+		Button btnNovaVenda = (Button) findViewById(R.id.btnNovaVenda);
 		btnNovaVenda.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				criarNovaVenda();
+			}
+		});
+
+		Button btnDescontoVenda = (Button) findViewById(R.id.btnDescontoVenda);
+		btnDescontoVenda.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				realizarDescontoVenda();
 			}
 		});
 	}
@@ -148,11 +161,10 @@ public class PosAppActivity extends FragmentActivity {
 	public void onCreateContextMenu(ContextMenu menu, View view,
 			ContextMenu.ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.listViewItensVenda) {
-			ListView lv = (ListView) view;
-			AdapterView.AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) menuInfo;
-			ItemVenda itemVenda = (ItemVenda) lv
-					.getItemAtPosition(acmi.position);
-			menu.add(Menu.NONE, CONTEXT_MENU_ITEM_EXCLUIR, 0, "Excluir");
+			menu.add(Menu.NONE, CONTEXT_MENU_ITEM_EXCLUIR,
+					CONTEXT_MENU_ITEM_EXCLUIR, "Excluir");
+			menu.add(Menu.NONE, CONTEXT_MENU_ITEM_DESCONTO,
+					CONTEXT_MENU_ITEM_DESCONTO, "Desconto");
 		}
 	}
 
@@ -207,7 +219,9 @@ public class PosAppActivity extends FragmentActivity {
 		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		if (item.getItemId() == CONTEXT_MENU_ITEM_EXCLUIR) {
-			removerItemVenda(menuInfo);
+			removerItemVenda(menuInfo.position);
+		} else if (item.getItemId() == CONTEXT_MENU_ITEM_DESCONTO) {
+			realizarDescontoItemVenda(menuInfo.position);
 		} else {
 			return false;
 		}
@@ -222,11 +236,74 @@ public class PosAppActivity extends FragmentActivity {
 		totalTextView.setText(String.valueOf(venda.getValorTotal()));
 	}
 
-	private void removerItemVenda(AdapterContextMenuInfo menuInfo) {
-		ItemVenda itemVenda = itensVendaArrayAdapter.getItem(menuInfo.position);
+	private void removerItemVenda(int position) {
+		ItemVenda itemVenda = itensVendaArrayAdapter.getItem(position);
 		itensVendaArrayAdapter.remove(itemVenda);
 		venda.setValorTotal(venda.getValorTotal().subtract(
 				itemVenda.getValorTotal()));
 		totalTextView.setText(String.valueOf(venda.getValorTotal()));
+	}
+
+	private void realizarDescontoVenda() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Desconto");
+
+		// Set up the input
+		final EditText input = new EditText(this);
+		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		builder.setView(input);
+
+		// Set up the buttons
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				venda.realizarDesconto(new BigDecimal(String.valueOf(input
+						.getText())));
+				totalTextView.setText(String.valueOf(venda.getValorTotal()));
+			}
+		});
+		builder.setNegativeButton("Cancelar",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		builder.show();
+	}
+
+	private void realizarDescontoItemVenda(final int position) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Desconto");
+
+		// Set up the input
+		final EditText input = new EditText(this);
+		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		builder.setView(input);
+
+		// Set up the buttons
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+				ItemVenda itemVenda = itensVendaArrayAdapter.getItem(position);
+				itemVenda.realizarDesconto(new BigDecimal(String.valueOf(input
+						.getText())));
+				itensVendaArrayAdapter.notifyDataSetChanged();
+				venda.setValorTotal(venda.getValorTotal().subtract(
+						new BigDecimal(String.valueOf(input.getText()))));
+				totalTextView.setText(String.valueOf(venda.getValorTotal()));
+			}
+		});
+		builder.setNegativeButton("Cancelar",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		builder.show();
 	}
 }
