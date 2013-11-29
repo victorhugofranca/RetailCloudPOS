@@ -4,16 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/lblDescricao"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@+id/lblDescricao"
-        android:textSize="30px" >
-    </TextView>
-
     <LinearLayout
+        android:id="@+id/lblFormaPagamento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" >

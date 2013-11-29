@@ -10,5 +10,6 @@
     <string name="autocompletetextview">AutoCompleteTextView</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_pagamento">PagamentoActivity</string>
 
 </resources>

@@ -14,17 +14,17 @@
     </TextView>
 
     <TextView
-        android:id="@+id/lblUnd"
+        android:id="@+id/lblTipoPagamento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@+id/lblUnd" />
+        android:text="@+id/lblTipoPagamento" />
 
     <TextView
-        android:id="@+id/lblValorUnitario"
+        android:id="@+id/lblValorFormaPagamento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@+id/lblValorUnitario" />
+        android:text="@+id/lblValorFormaPagamento" />
 
 </LinearLayout>

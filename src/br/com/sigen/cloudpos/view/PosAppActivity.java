@@ -93,6 +93,14 @@ public class PosAppActivity extends FragmentActivity {
 				realizarDescontoVenda();
 			}
 		});
+
+		Button btnPagamento = (Button) findViewById(R.id.btnPagamento);
+		btnPagamento.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+			}
+		});
+
 	}
 
 	private void configSearchProdutosField() {

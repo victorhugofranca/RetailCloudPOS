@@ -25,34 +25,51 @@ public final class R {
         public static final int table_row=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f080011;
-        public static final int btnDescontoVenda=0x7f080003;
-        public static final int btnLayout1=0x7f080001;
-        public static final int btnLayout2=0x7f080008;
-        public static final int btnNovaVenda=0x7f080002;
-        public static final int button3=0x7f080009;
-        public static final int container=0x7f080000;
-        public static final int layoutItensVenda=0x7f080006;
-        public static final int lblDescricao=0x7f08000e;
-        public static final int lblTotalTextField=0x7f080004;
-        public static final int lblUnd=0x7f08000f;
-        public static final int lblValorUnitario=0x7f080010;
-        public static final int listViewItensVenda=0x7f080007;
-        public static final int listViewProdutos=0x7f08000c;
-        public static final int pesquisarProdutoField=0x7f08000b;
-        public static final int produtosLayout=0x7f08000a;
-        public static final int section_label=0x7f08000d;
-        public static final int textValorTotal=0x7f080005;
+        public static final int LinearLayout1=0x7f080000;
+        public static final int action_settings=0x7f08001f;
+        public static final int btnCartaoCredito=0x7f080004;
+        public static final int btnCartaoDebito=0x7f080003;
+        public static final int btnCheque=0x7f080005;
+        public static final int btnConfirmarPagamento=0x7f080007;
+        public static final int btnDescontoVenda=0x7f080010;
+        public static final int btnDinheiro=0x7f080002;
+        public static final int btnLayout1=0x7f08000e;
+        public static final int btnLayout2=0x7f080016;
+        public static final int btnNovaVenda=0x7f08000f;
+        public static final int btnPagamento=0x7f080011;
+        public static final int container=0x7f08000d;
+        public static final int inputValueText=0x7f080006;
+        public static final int layoutItensVenda=0x7f080014;
+        public static final int lblDescricao=0x7f08001b;
+        public static final int lblFormaPagamento=0x7f08001e;
+        public static final int lblSaldoPagamentos=0x7f08000a;
+        public static final int lblTipoPagamento=0x7f08001c;
+        public static final int lblTotalTextField=0x7f080012;
+        public static final int lblValorFormaPagamento=0x7f08001d;
+        public static final int lblValorTotalVenda=0x7f080008;
+        public static final int linearLayout1=0x7f080001;
+        public static final int listViewItensVenda=0x7f080015;
+        public static final int listViewProdutos=0x7f080019;
+        public static final int pagamentosListView=0x7f08000c;
+        public static final int pesquisarProdutoField=0x7f080018;
+        public static final int produtosLayout=0x7f080017;
+        public static final int section_label=0x7f08001a;
+        public static final int textValorTotal=0x7f080013;
+        public static final int textView2=0x7f08000b;
+        public static final int txtValorVenda=0x7f080009;
     }
     public static final class layout {
-        public static final int activity_pos_app=0x7f030000;
-        public static final int fragment_pos_app_dummy=0x7f030001;
-        public static final int item_venda_row_layout=0x7f030002;
-        public static final int produto_row_layout=0x7f030003;
+        public static final int activity_pagamento=0x7f030000;
+        public static final int activity_pos_app=0x7f030001;
+        public static final int fragment_pos_app_dummy=0x7f030002;
+        public static final int item_venda_row_layout=0x7f030003;
+        public static final int pagamento_row_layout=0x7f030004;
+        public static final int produto_row_layout=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f070000;
-        public static final int pos_app=0x7f070001;
+        public static final int pagamento=0x7f070001;
+        public static final int pos_app=0x7f070002;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -61,6 +78,7 @@ public final class R {
         public static final int btn2=0x7f050005;
         public static final int hello_world=0x7f050008;
         public static final int title_activity_main=0x7f050007;
+        public static final int title_activity_pagamento=0x7f050009;
         public static final int title_conf=0x7f050004;
         public static final int title_sistema=0x7f050003;
         public static final int title_venda=0x7f050002;

@@ -36,11 +36,11 @@ public class ProdutosArrayAdapter extends ArrayAdapter<Produto> implements
 		TextView textView = (TextView) rowView.findViewById(R.id.lblDescricao);
 		textView.setText(values.get(position).getDescricao());
 
-		TextView textView2 = (TextView) rowView.findViewById(R.id.lblUnd);
+		TextView textView2 = (TextView) rowView.findViewById(R.id.lblTipoPagamento);
 		textView2.setText(values.get(position).getUnidadeMedida());
 
 		TextView textView3 = (TextView) rowView
-				.findViewById(R.id.lblValorUnitario);
+				.findViewById(R.id.lblValorFormaPagamento);
 		textView3.setText(String.valueOf(values.get(position)
 				.getValorUnitario()));
 

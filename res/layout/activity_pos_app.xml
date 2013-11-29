@@ -27,14 +27,21 @@
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nova Venda" />
+                    android:text="V" />
 
                 <Button
                     android:id="@+id/btnDescontoVenda"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Desconto" />
+                    android:text="D" />
+
+                <Button
+                    android:id="@+id/btnPagamento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -85,7 +92,7 @@
                 android:background="#D3D3D3" >
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btnCartaoCredito"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
