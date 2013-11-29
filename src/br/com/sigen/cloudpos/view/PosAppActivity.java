@@ -9,12 +9,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -32,6 +35,8 @@ public class PosAppActivity extends FragmentActivity {
 
 	private ListView listViewItensVenda;
 	private TextView totalTextView;
+
+	private static int CONTEXT_MENU_ITEM_EXCLUIR = 0;
 
 	private Venda venda;
 
@@ -55,7 +60,7 @@ public class PosAppActivity extends FragmentActivity {
 
 		configButtons();
 
-		configItensVendaTable();
+		configItensVendaListView();
 
 		configProdutosTable();
 
@@ -119,11 +124,7 @@ public class PosAppActivity extends FragmentActivity {
 				Produto produto = produtosArrayAdapter.getItem(position);
 
 				ItemVenda itemVenda = new ItemVenda(produto, BigDecimal.ONE);
-				itensVendaArrayAdapter.insert(itemVenda,
-						itensVendaArrayAdapter.getCount());
-				venda.setValorTotal(venda.getValorTotal().add(
-						itemVenda.getValorTotal()));
-				totalTextView.setText(String.valueOf(venda.getValorTotal()));
+				addItemVenda(itemVenda);
 
 				listViewItensVenda.setSelection(itensVendaArrayAdapter
 						.getCount() - 1);
@@ -132,13 +133,27 @@ public class PosAppActivity extends FragmentActivity {
 
 	}
 
-	private void configItensVendaTable() {
+	private void configItensVendaListView() {
 		listViewItensVenda = (ListView) findViewById(R.id.listViewItensVenda);
 
 		itensVendaArrayAdapter = new ItensVendaArrayAdapter(getBaseContext(),
 				new ArrayList<ItemVenda>());
 
 		listViewItensVenda.setAdapter(itensVendaArrayAdapter);
+
+		registerForContextMenu(listViewItensVenda);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view,
+			ContextMenu.ContextMenuInfo menuInfo) {
+		if (view.getId() == R.id.listViewItensVenda) {
+			ListView lv = (ListView) view;
+			AdapterView.AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) menuInfo;
+			ItemVenda itemVenda = (ItemVenda) lv
+					.getItemAtPosition(acmi.position);
+			menu.add(Menu.NONE, CONTEXT_MENU_ITEM_EXCLUIR, 0, "Excluir");
+		}
 	}
 
 	private AutoCompleteTextView findPesquisarProdutosField() {
@@ -185,4 +200,33 @@ public class PosAppActivity extends FragmentActivity {
 		totalTextView.setText(String.valueOf(venda.getValorTotal()));
 	}
 
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+
+		// Get extra info about list item that was long-pressed
+		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		if (item.getItemId() == CONTEXT_MENU_ITEM_EXCLUIR) {
+			removerItemVenda(menuInfo);
+		} else {
+			return false;
+		}
+		return true;
+	}
+
+	private void addItemVenda(ItemVenda itemVenda) {
+		itensVendaArrayAdapter.insert(itemVenda,
+				itensVendaArrayAdapter.getCount());
+		venda.setValorTotal(venda.getValorTotal()
+				.add(itemVenda.getValorTotal()));
+		totalTextView.setText(String.valueOf(venda.getValorTotal()));
+	}
+
+	private void removerItemVenda(AdapterContextMenuInfo menuInfo) {
+		ItemVenda itemVenda = itensVendaArrayAdapter.getItem(menuInfo.position);
+		itensVendaArrayAdapter.remove(itemVenda);
+		venda.setValorTotal(venda.getValorTotal().subtract(
+				itemVenda.getValorTotal()));
+		totalTextView.setText(String.valueOf(venda.getValorTotal()));
+	}
 }
