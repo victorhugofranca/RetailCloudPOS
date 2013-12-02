@@ -3,8 +3,8 @@ package br.com.sigen.cloudpos.view;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import android.R.color;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -71,7 +71,7 @@ public class PagamentoActivity extends Activity {
 				TextView txtValor = (TextView) findViewById(R.id.inputValueText);
 
 				ItemPagamento itemPagamento = new ItemPagamento();
-				itemPagamento.setTipoPagamento("Dinheiro");
+				itemPagamento.setTipoPagamento(tipoPagamentoSelecionado);
 				itemPagamento.setValor(new BigDecimal(String.valueOf(txtValor
 						.getText())));
 
@@ -83,6 +83,8 @@ public class PagamentoActivity extends Activity {
 				saldoPagamentos = saldoPagamentos.subtract(itemPagamento
 						.getValor());
 				txtSaldoTotalVenda.setText(String.valueOf(saldoPagamentos));
+				
+				txtValor.setText("");
 			}
 		});
 
@@ -124,31 +126,31 @@ public class PagamentoActivity extends Activity {
 	private void configSelectedFormaPagamento(int btnId) {
 		Button btnDinheiro = (Button) findViewById(R.id.btnDinheiro);
 		if (btnId == R.id.btnDinheiro) {
-			btnDinheiro.setBackgroundColor(color.darker_gray);
+			btnDinheiro.setBackgroundColor(Color.GRAY);
 			tipoPagamentoSelecionado = "Dinheiro";
 		} else
-			btnDinheiro.setBackgroundColor(color.background_light);
+			btnDinheiro.setBackgroundColor(Color.LTGRAY);
 
 		Button btnCartaoDebito = (Button) findViewById(R.id.btnCartaoDebito);
 		if (btnId == R.id.btnCartaoDebito) {
-			btnCartaoDebito.setBackgroundColor(color.darker_gray);
+			btnCartaoDebito.setBackgroundColor(Color.GRAY);
 			tipoPagamentoSelecionado = "Cartão Débito";
 		} else
-			btnCartaoDebito.setBackgroundColor(color.background_light);
+			btnCartaoDebito.setBackgroundColor(Color.LTGRAY);
 
 		Button btnCartaoCredito = (Button) findViewById(R.id.btnCartaoCredito);
 		if (btnId == R.id.btnCartaoCredito) {
-			btnCartaoCredito.setBackgroundColor(color.darker_gray);
+			btnCartaoCredito.setBackgroundColor(Color.GRAY);
 			tipoPagamentoSelecionado = "Cartão Crédito";
 		} else
-			btnCartaoCredito.setBackgroundColor(color.background_light);
+			btnCartaoCredito.setBackgroundColor(Color.LTGRAY);
 
 		Button btnCheque = (Button) findViewById(R.id.btnCheque);
 		if (btnId == R.id.btnCheque) {
-			btnCheque.setBackgroundColor(color.darker_gray);
+			btnCheque.setBackgroundColor(Color.GRAY);
 			tipoPagamentoSelecionado = "Cheque";
 		} else
-			btnCheque.setBackgroundColor(color.background_light);
+			btnCheque.setBackgroundColor(Color.LTGRAY);
 	}
 
 	@Override

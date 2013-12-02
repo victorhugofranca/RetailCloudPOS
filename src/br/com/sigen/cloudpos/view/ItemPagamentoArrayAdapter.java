@@ -33,8 +33,8 @@ public class ItemPagamentoArrayAdapter extends ArrayAdapter<ItemPagamento> {
 				itemPagamento.setValor(itemPagamento.getValor().add(
 						newItemPagamento.getValor()));
 				notifyDataSetChanged();
+				return;
 			}
-			return;
 		}
 		super.add(newItemPagamento);
 	}
