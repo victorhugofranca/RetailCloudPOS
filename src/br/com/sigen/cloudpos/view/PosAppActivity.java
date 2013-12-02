@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -42,6 +43,8 @@ public class PosAppActivity extends FragmentActivity {
 
 	private static int CONTEXT_MENU_ITEM_EXCLUIR = 0;
 	private static int CONTEXT_MENU_ITEM_DESCONTO = 1;
+
+	private static int PAGAMENTO_REQUEST_CODE = 0;
 
 	private Venda venda;
 
@@ -98,9 +101,20 @@ public class PosAppActivity extends FragmentActivity {
 		btnPagamento.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				Intent intent = new Intent(getBaseContext(),
+						PagamentoActivity.class);
+				startActivityForResult(intent, PAGAMENTO_REQUEST_CODE);
 			}
 		});
+	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == PAGAMENTO_REQUEST_CODE){
+			if(resultCode == RESULT_OK){
+				criarNovaVenda();
+			}
+		}
 	}
 
 	private void configSearchProdutosField() {

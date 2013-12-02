@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -64,6 +65,20 @@ public class PagamentoActivity extends Activity {
 	}
 
 	private void configButtons() {
+		Button buttonFinalizarPagamentos = (Button) findViewById(R.id.btnFinalizarPagamentos);
+		buttonFinalizarPagamentos.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// Prepare data intent
+				Intent data = new Intent();
+
+				// Activity finished ok, return the data
+				setResult(RESULT_OK, data);
+
+				finish();
+			}
+		});
+
 		Button button = (Button) findViewById(R.id.btnConfirmarPagamento);
 		button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -83,7 +98,7 @@ public class PagamentoActivity extends Activity {
 				saldoPagamentos = saldoPagamentos.subtract(itemPagamento
 						.getValor());
 				txtSaldoTotalVenda.setText(String.valueOf(saldoPagamentos));
-				
+
 				txtValor.setText("");
 			}
 		});
