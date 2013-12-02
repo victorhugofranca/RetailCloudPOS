@@ -1,4 +1,4 @@
-package br.com.sigen.cloudpos.view;
+package br.com.sigen.cloudpos.view.pos;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,14 +13,15 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import br.com.sigen.cloudpos.business.ProdutoManager;
 import br.com.sigen.cloudpos.entity.Produto;
+import br.com.sigen.cloudpos.view.R;
 
-public class ProdutosArrayAdapter extends ArrayAdapter<Produto> implements
+public class ArrayAdapterProdutos extends ArrayAdapter<Produto> implements
 		Filterable {
 
 	private Context context;
 	private List<Produto> values;
 
-	public ProdutosArrayAdapter(Context context, List<Produto> values) {
+	public ArrayAdapterProdutos(Context context, List<Produto> values) {
 		super(context, R.layout.produto_row_layout, values);
 		this.context = context;
 		this.values = values;

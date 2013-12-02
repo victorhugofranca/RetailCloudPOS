@@ -3,7 +3,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PosAppActivity"
+    tools:context=".ActivityPosApp"
     tools:ignore="MergeRootFrame" >
 
     <LinearLayout
@@ -59,7 +59,7 @@
                     android:id="@+id/textValorTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Large Text"
+                    android:text="0,00"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
 

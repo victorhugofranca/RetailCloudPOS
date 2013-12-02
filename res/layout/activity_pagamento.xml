@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".PagamentoActivity" >
+    tools:context=".ActivityPagamento" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -122,7 +122,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/textSaldoPagamento"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium" />

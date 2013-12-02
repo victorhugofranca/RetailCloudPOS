@@ -1,25 +1,21 @@
-package br.com.sigen.cloudpos.view;
+package br.com.sigen.cloudpos.view.pos;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -29,55 +25,44 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import br.com.sigen.cloudpos.business.ProdutoManager;
-import br.com.sigen.cloudpos.entity.ItemVenda;
+import br.com.sigen.cloudpos.business.VendaBuilder;
 import br.com.sigen.cloudpos.entity.Produto;
-import br.com.sigen.cloudpos.entity.Venda;
+import br.com.sigen.cloudpos.view.R;
+import br.com.sigen.cloudpos.view.pagamento.ActivityPagamento;
 
-public class PosAppActivity extends FragmentActivity {
+public class ActivityPosApp extends FragmentActivity {
 
-	private ProdutosArrayAdapter produtosArrayAdapter;
-	private ItensVendaArrayAdapter itensVendaArrayAdapter;
+	// Array Adapters
+	private ArrayAdapterProdutos produtosArrayAdapter;
+	private AdapterVenda vendaAdapter;
 
+	// Visual Components
 	private ListView listViewItensVenda;
-	private TextView totalTextView;
 
+	// Context Menu Itens
 	private static int CONTEXT_MENU_ITEM_EXCLUIR = 0;
 	private static int CONTEXT_MENU_ITEM_DESCONTO = 1;
 
+	// Intent Request Codes
 	private static int PAGAMENTO_REQUEST_CODE = 0;
-
-	private Venda venda;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pos_app);
 
-		initBusinessObjects();
+		setContentView(R.layout.activity_pos_app);
 
 		initVisualComponents();
 	}
 
-	private void initBusinessObjects() {
-		venda = new Venda();
-		venda.setValorTotal(BigDecimal.ZERO);
-	}
-
 	private void initVisualComponents() {
-		configTotalTextField();
-
 		configButtons();
 
-		configItensVendaListView();
+		configItensVendaList();
 
-		configProdutosTable();
+		configProdutosList();
 
 		configSearchProdutosField();
-	}
-
-	private void configTotalTextField() {
-		totalTextView = (TextView) findViewById(R.id.textValorTotal);
-		totalTextView.setText(String.valueOf(venda.getValorTotal()));
 	}
 
 	private void configButtons() {
@@ -85,7 +70,7 @@ public class PosAppActivity extends FragmentActivity {
 		btnNovaVenda.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				criarNovaVenda();
+				initVendaAdapter();
 			}
 		});
 
@@ -102,7 +87,7 @@ public class PosAppActivity extends FragmentActivity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(getBaseContext(),
-						PagamentoActivity.class);
+						ActivityPagamento.class);
 				startActivityForResult(intent, PAGAMENTO_REQUEST_CODE);
 			}
 		});
@@ -110,15 +95,15 @@ public class PosAppActivity extends FragmentActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(requestCode == PAGAMENTO_REQUEST_CODE){
-			if(resultCode == RESULT_OK){
-				criarNovaVenda();
+		if (requestCode == PAGAMENTO_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				initVendaAdapter();
 			}
 		}
 	}
 
 	private void configSearchProdutosField() {
-		AutoCompleteTextView pesquisarProdutosField = findPesquisarProdutosField();
+		AutoCompleteTextView pesquisarProdutosField = (AutoCompleteTextView) findViewById(R.id.pesquisarProdutoField);
 		pesquisarProdutosField.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -130,24 +115,21 @@ public class PosAppActivity extends FragmentActivity {
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
 					int arg2, int arg3) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
-
 			}
 		});
 	}
 
-	private void configProdutosTable() {
+	private void configProdutosList() {
 		final ListView listView = (ListView) findViewById(R.id.listViewProdutos);
 
 		List<Produto> produtos = ProdutoManager.getInstance().find(
 				new Produto());
 
-		produtosArrayAdapter = new ProdutosArrayAdapter(getBaseContext(),
+		produtosArrayAdapter = new ArrayAdapterProdutos(getBaseContext(),
 				produtos);
 
 		listView.setAdapter(produtosArrayAdapter);
@@ -157,26 +139,26 @@ public class PosAppActivity extends FragmentActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Produto produto = produtosArrayAdapter.getItem(position);
-
-				ItemVenda itemVenda = new ItemVenda(produto, BigDecimal.ONE);
-				addItemVenda(itemVenda);
-
-				listViewItensVenda.setSelection(itensVendaArrayAdapter
-						.getCount() - 1);
+				vendaAdapter.add(produto);
+				listViewItensVenda.setSelection(vendaAdapter.getCount() - 1);
 			}
 		});
 
 	}
 
-	private void configItensVendaListView() {
+	private void configItensVendaList() {
 		listViewItensVenda = (ListView) findViewById(R.id.listViewItensVenda);
 
-		itensVendaArrayAdapter = new ItensVendaArrayAdapter(getBaseContext(),
-				new ArrayList<ItemVenda>());
-
-		listViewItensVenda.setAdapter(itensVendaArrayAdapter);
+		initVendaAdapter();
 
 		registerForContextMenu(listViewItensVenda);
+	}
+
+	private void initVendaAdapter() {
+		TextView totalTextView = (TextView) findViewById(R.id.textValorTotal);
+		vendaAdapter = new AdapterVenda(getBaseContext(),
+				VendaBuilder.createVenda(), totalTextView);
+		listViewItensVenda.setAdapter(vendaAdapter);
 	}
 
 	@Override
@@ -190,48 +172,10 @@ public class PosAppActivity extends FragmentActivity {
 		}
 	}
 
-	private AutoCompleteTextView findPesquisarProdutosField() {
-		AutoCompleteTextView field = (AutoCompleteTextView) findViewById(R.id.pesquisarProdutoField);
-		return field;
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.pos_app, menu);
 		return true;
-	}
-
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-	public static class DummySectionFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-
-		public DummySectionFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_pos_app_dummy,
-					container, false);
-			TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
-			return rootView;
-		}
-	}
-
-	private void criarNovaVenda() {
-		initBusinessObjects();
-		itensVendaArrayAdapter.clear();
-		totalTextView.setText(String.valueOf(venda.getValorTotal()));
 	}
 
 	@Override
@@ -250,20 +194,8 @@ public class PosAppActivity extends FragmentActivity {
 		return true;
 	}
 
-	private void addItemVenda(ItemVenda itemVenda) {
-		itensVendaArrayAdapter.insert(itemVenda,
-				itensVendaArrayAdapter.getCount());
-		venda.setValorTotal(venda.getValorTotal()
-				.add(itemVenda.getValorTotal()));
-		totalTextView.setText(String.valueOf(venda.getValorTotal()));
-	}
-
 	private void removerItemVenda(int position) {
-		ItemVenda itemVenda = itensVendaArrayAdapter.getItem(position);
-		itensVendaArrayAdapter.remove(itemVenda);
-		venda.setValorTotal(venda.getValorTotal().subtract(
-				itemVenda.getValorTotal()));
-		totalTextView.setText(String.valueOf(venda.getValorTotal()));
+		vendaAdapter.remove(position);
 	}
 
 	private void realizarDescontoVenda() {
@@ -279,9 +211,8 @@ public class PosAppActivity extends FragmentActivity {
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				venda.realizarDesconto(new BigDecimal(String.valueOf(input
-						.getText())));
-				totalTextView.setText(String.valueOf(venda.getValorTotal()));
+				vendaAdapter.realizarDesconto(new BigDecimal(String
+						.valueOf(input.getText())));
 			}
 		});
 		builder.setNegativeButton("Cancelar",
@@ -308,14 +239,8 @@ public class PosAppActivity extends FragmentActivity {
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-
-				ItemVenda itemVenda = itensVendaArrayAdapter.getItem(position);
-				itemVenda.realizarDesconto(new BigDecimal(String.valueOf(input
-						.getText())));
-				itensVendaArrayAdapter.notifyDataSetChanged();
-				venda.setValorTotal(venda.getValorTotal().subtract(
-						new BigDecimal(String.valueOf(input.getText()))));
-				totalTextView.setText(String.valueOf(venda.getValorTotal()));
+				vendaAdapter.realizarDescontoItem(position, new BigDecimal(
+						String.valueOf(input.getText())));
 			}
 		});
 		builder.setNegativeButton("Cancelar",

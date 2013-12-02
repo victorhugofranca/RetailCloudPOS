@@ -1,7 +1,6 @@
-package br.com.sigen.cloudpos.view;
+package br.com.sigen.cloudpos.view.pagamento;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,55 +12,47 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import br.com.sigen.cloudpos.business.PagamentoBuilder;
 import br.com.sigen.cloudpos.entity.ItemPagamento;
-import br.com.sigen.cloudpos.entity.Pagamento;
+import br.com.sigen.cloudpos.view.R;
 
-public class PagamentoActivity extends Activity {
+public class ActivityPagamento extends Activity {
 
-	private ItemPagamentoArrayAdapter itemPagamentoArrayAdapter;
+	private AdapterPagamento pagamentoAdapter;
 	private String tipoPagamentoSelecionado;
-
-	private Pagamento pagamento;
-	private BigDecimal saldoPagamentos;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pagamento);
 
-		configBusinessObjects();
+		setContentView(R.layout.activity_pagamento);
 
 		configComponentesVisuais();
 	}
 
-	private void configBusinessObjects() {
-		pagamento = new Pagamento();
-		pagamento.setValorTotal(BigDecimal.ZERO);
-		saldoPagamentos = BigDecimal.TEN.multiply(BigDecimal.TEN);
-	}
-
 	private void configComponentesVisuais() {
+
 		configTipoPagamentoSelecionado();
 		configButtons();
-		configTextViewValoresTotais();
-		configItensPagamentosTable();
+		configItensPagamentosList();
+
 	}
 
 	private void configTipoPagamentoSelecionado() {
 		this.tipoPagamentoSelecionado = "Dinheiro";
 	}
 
-	private void configTextViewValoresTotais() {
-		TextView txtSaldoTotalVenda = (TextView) findViewById(R.id.lblSaldoPagamentos);
-		txtSaldoTotalVenda.setText(String.valueOf(saldoPagamentos));
+	private void configItensPagamentosList() {
+		TextView saldoPagamentoTextView = (TextView) findViewById(R.id.textSaldoPagamento);
+		ListView pagamentosListView = initItensPagamentoList(saldoPagamentoTextView);
+		pagamentosListView.setAdapter(pagamentoAdapter);
 	}
 
-	private void configItensPagamentosTable() {
-		itemPagamentoArrayAdapter = new ItemPagamentoArrayAdapter(
-				getBaseContext(), new ArrayList<ItemPagamento>());
-
+	private ListView initItensPagamentoList(TextView saldoPagamentoTextView) {
+		pagamentoAdapter = new AdapterPagamento(getBaseContext(),
+				PagamentoBuilder.createPagamento(), saldoPagamentoTextView);
 		ListView pagamentosListView = (ListView) findViewById(R.id.pagamentosListView);
-		pagamentosListView.setAdapter(itemPagamentoArrayAdapter);
+		return pagamentosListView;
 	}
 
 	private void configButtons() {
@@ -90,14 +81,7 @@ public class PagamentoActivity extends Activity {
 				itemPagamento.setValor(new BigDecimal(String.valueOf(txtValor
 						.getText())));
 
-				itemPagamentoArrayAdapter.add(itemPagamento);
-				pagamento.setValorTotal(pagamento.getValorTotal().add(
-						itemPagamento.getValor()));
-
-				TextView txtSaldoTotalVenda = (TextView) findViewById(R.id.lblSaldoPagamentos);
-				saldoPagamentos = saldoPagamentos.subtract(itemPagamento
-						.getValor());
-				txtSaldoTotalVenda.setText(String.valueOf(saldoPagamentos));
+				pagamentoAdapter.add(itemPagamento);
 
 				txtValor.setText("");
 			}
