@@ -11,6 +11,7 @@ import android.widget.TextView;
 import br.com.sigen.cloudpos.entity.ItemVenda;
 import br.com.sigen.cloudpos.entity.Produto;
 import br.com.sigen.cloudpos.entity.Venda;
+import br.com.sigen.cloudpos.exception.BusinessException;
 import br.com.sigen.cloudpos.view.R;
 
 public class AdapterVenda extends ArrayAdapter<ItemVenda> {
@@ -32,6 +33,10 @@ public class AdapterVenda extends ArrayAdapter<ItemVenda> {
 
 	}
 
+	public Venda getVenda() {
+		return this.venda;
+	}
+
 	@Override
 	public void clear() {
 		venda.getItensVenda().clear();
@@ -39,12 +44,14 @@ public class AdapterVenda extends ArrayAdapter<ItemVenda> {
 		notifyDataSetChanged();
 	}
 
-	public void realizarDesconto(BigDecimal valorDesconto) {
+	public void realizarDesconto(BigDecimal valorDesconto)
+			throws BusinessException {
 		venda.realizarDesconto(valorDesconto);
 		notifyDataSetChanged();
 	}
 
-	public void realizarDescontoItem(int position, BigDecimal valorDesconto) {
+	public void realizarDescontoItem(int position, BigDecimal valorDesconto)
+			throws BusinessException {
 		ItemVenda itemVenda = venda.getItensVenda().get(position);
 		itemVenda.realizarDesconto(valorDesconto);
 		venda.atualizarItemVenda(position, itemVenda, valorDesconto);
@@ -100,7 +107,7 @@ public class AdapterVenda extends ArrayAdapter<ItemVenda> {
 		TextView textView3 = (TextView) rowView
 				.findViewById(R.id.lblValorFormaPagamento);
 		textView3.setText(String.valueOf(venda.getItensVenda().get(position)
-				.getProduto().getValorUnitario()));
+				.getValorUnitario()));
 
 		return rowView;
 	}

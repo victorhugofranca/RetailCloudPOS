@@ -1,7 +1,5 @@
 package br.com.sigen.cloudpos.view.pagamento;
 
-import java.math.BigDecimal;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +13,7 @@ import android.widget.TextView;
 import br.com.sigen.cloudpos.business.PagamentoBuilder;
 import br.com.sigen.cloudpos.entity.ItemPagamento;
 import br.com.sigen.cloudpos.view.R;
+import br.com.sigen.cloudpos.view.component.NumberEditText;
 
 public class ActivityPagamento extends Activity {
 
@@ -31,11 +30,9 @@ public class ActivityPagamento extends Activity {
 	}
 
 	private void configComponentesVisuais() {
-
 		configTipoPagamentoSelecionado();
 		configButtons();
 		configItensPagamentosList();
-
 	}
 
 	private void configTipoPagamentoSelecionado() {
@@ -74,16 +71,15 @@ public class ActivityPagamento extends Activity {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				TextView txtValor = (TextView) findViewById(R.id.inputValueText);
+				NumberEditText txtValor = (NumberEditText) findViewById(R.id.inputValueText);
 
 				ItemPagamento itemPagamento = new ItemPagamento();
 				itemPagamento.setTipoPagamento(tipoPagamentoSelecionado);
-				itemPagamento.setValor(new BigDecimal(String.valueOf(txtValor
-						.getText())));
+				itemPagamento.setValor(txtValor.getNumber());
 
 				pagamentoAdapter.add(itemPagamento);
 
-				txtValor.setText("");
+				txtValor.clear();
 			}
 		});
 

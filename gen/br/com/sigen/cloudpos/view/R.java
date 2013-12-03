@@ -22,7 +22,6 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int table_row=0x7f020001;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f080000;
@@ -35,7 +34,6 @@ public final class R {
         public static final int btnDinheiro=0x7f080003;
         public static final int btnFinalizarPagamentos=0x7f080001;
         public static final int btnLayout1=0x7f08000f;
-        public static final int btnLayout2=0x7f080017;
         public static final int btnNovaVenda=0x7f080010;
         public static final int btnPagamento=0x7f080012;
         public static final int container=0x7f08000e;
@@ -50,10 +48,11 @@ public final class R {
         public static final int lblValorTotalVenda=0x7f080009;
         public static final int linearLayout1=0x7f080002;
         public static final int listViewItensVenda=0x7f080016;
-        public static final int listViewProdutos=0x7f08001a;
+        public static final int listViewProdutos=0x7f080019;
+        public static final int numberPicker1=0x7f08001a;
         public static final int pagamentosListView=0x7f08000d;
-        public static final int pesquisarProdutoField=0x7f080019;
-        public static final int produtosLayout=0x7f080018;
+        public static final int pesquisarProdutoField=0x7f080018;
+        public static final int produtosLayout=0x7f080017;
         public static final int textSaldoPagamento=0x7f08000c;
         public static final int textValorTotal=0x7f080014;
         public static final int txtValorVenda=0x7f08000a;

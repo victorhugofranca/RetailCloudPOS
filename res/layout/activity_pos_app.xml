@@ -7,120 +7,117 @@
     tools:ignore="MergeRootFrame" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:orientation="vertical" >
+            android:id="@+id/btnLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#D3D3D3" >
 
-            <LinearLayout
-                android:id="@+id/btnLayout1"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btnNovaVenda"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#D3D3D3" >
+                android:text="V" />
 
-                <Button
-                    android:id="@+id/btnNovaVenda"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="V" />
-
-                <Button
-                    android:id="@+id/btnDescontoVenda"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="D" />
-
-                <Button
-                    android:id="@+id/btnPagamento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/lblTotalTextField"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total: R$"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                <TextView
-                    android:id="@+id/textValorTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0,00"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutItensVenda"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btnDescontoVenda"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1" >
+                android:text="D" />
 
-                <ListView
-                    android:id="@+id/listViewItensVenda"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-                </ListView>
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnPagamento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:orientation="vertical" >
+            android:layout_height="fill_parent" >
 
             <LinearLayout
-                android:id="@+id/btnLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#D3D3D3" >
-
-                <Button
-                    android:id="@+id/btnCartaoCredito"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Button" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/produtosLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
                 android:orientation="vertical" >
 
-                <AutoCompleteTextView
-                    android:id="@+id/pesquisarProdutoField"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10" >
-
-                    <requestFocus />
-                </AutoCompleteTextView>
-
-                <ListView
-                    android:id="@+id/listViewProdutos"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-                </ListView>
+
+                    <TextView
+                        android:id="@+id/lblTotalTextField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total: R$"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/textValorTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0,00"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutItensVenda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ListView
+                        android:id="@+id/listViewItensVenda"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+                    </ListView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/produtosLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/pesquisarProdutoField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10" >
+
+                        <requestFocus />
+                    </AutoCompleteTextView>
+
+                    <ListView
+                        android:id="@+id/listViewProdutos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+                    </ListView>
+                </LinearLayout>
+
+                <NumberPicker
+                    android:id="@+id/numberPicker1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>

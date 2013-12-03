@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <EditText
+                <br.com.sigen.cloudpos.view.component.NumberEditText
                     android:id="@+id/inputValueText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                     android:ems="10" >
 
                     <requestFocus />
-                </EditText>
+                </br.com.sigen.cloudpos.view.component.NumberEditText>
 
                 <Button
                     android:id="@+id/btnConfirmarPagamento"

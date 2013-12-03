@@ -3,10 +3,21 @@ package br.com.sigen.cloudpos.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
+import br.com.sigen.cloudpos.Messages;
+import br.com.sigen.cloudpos.exception.BusinessException;
+
 public class Venda {
 
 	private BigDecimal valorTotal;
 	private List<ItemVenda> itensVenda;
+
+	public Boolean podeRealizarDesconto(BigDecimal desconto) {
+		return valorTotal.compareTo(desconto) > 0 ? true : false;
+	}
+
+	public Boolean podeEncerrar() {
+		return itensVenda.isEmpty() ? false : true;
+	}
 
 	public void atualizarItemVenda(int position, ItemVenda itemVenda,
 			BigDecimal valorDesconto) {
@@ -14,7 +25,12 @@ public class Venda {
 		itensVenda.set(position, itemVenda);
 	}
 
-	public void realizarDesconto(BigDecimal valorDesconto) {
+	public void realizarDesconto(BigDecimal valorDesconto)
+			throws BusinessException {
+
+		if (!podeRealizarDesconto(valorDesconto))
+			throw new BusinessException(Messages.IMPOSSIVEL_REALIZAR_DESCONTO_VENDA);
+
 		setValorTotal(getValorTotal().subtract(valorDesconto));
 	}
 

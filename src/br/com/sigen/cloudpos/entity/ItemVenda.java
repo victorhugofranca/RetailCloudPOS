@@ -2,11 +2,15 @@ package br.com.sigen.cloudpos.entity;
 
 import java.math.BigDecimal;
 
+import br.com.sigen.cloudpos.Messages;
+import br.com.sigen.cloudpos.exception.BusinessException;
+
 public class ItemVenda {
 
 	private String indice;
 	private Produto produto;
 	private BigDecimal quantidade;
+	private BigDecimal valorUnitario;
 	private BigDecimal valorTotal;
 
 	public ItemVenda() {
@@ -16,13 +20,22 @@ public class ItemVenda {
 	public ItemVenda(Produto produto, BigDecimal quantidade) {
 		this.produto = produto;
 		this.quantidade = quantidade;
+		this.valorUnitario = produto.getValorUnitario();
 		this.valorTotal = quantidade.multiply(produto.getValorUnitario());
 	}
 
-	public void realizarDesconto(BigDecimal valorDesconto) {
-		produto.setValorUnitario(produto.getValorUnitario().subtract(
-				valorDesconto));
-		setValorTotal(produto.getValorUnitario().multiply(getQuantidade()));
+	public Boolean podeRealizarDesconto(BigDecimal desconto) {
+		return valorTotal.compareTo(desconto) > 0 ? true : false;
+	}
+
+	public void realizarDesconto(BigDecimal valorDesconto)
+			throws BusinessException {
+		if (!podeRealizarDesconto(valorDesconto))
+			throw new BusinessException(
+					Messages.IMPOSSIVEL_REALIZAR_DESCONTO_ITEM);
+
+		setValorUnitario(getValorUnitario().subtract(valorDesconto));
+		setValorTotal(getValorUnitario().multiply(getQuantidade()));
 	}
 
 	public String getIndice() {
@@ -55,6 +68,14 @@ public class ItemVenda {
 
 	public void setValorTotal(BigDecimal valorTotal) {
 		this.valorTotal = valorTotal;
+	}
+
+	public BigDecimal getValorUnitario() {
+		return valorUnitario;
+	}
+
+	public void setValorUnitario(BigDecimal valorUnitario) {
+		this.valorUnitario = valorUnitario;
 	}
 
 }

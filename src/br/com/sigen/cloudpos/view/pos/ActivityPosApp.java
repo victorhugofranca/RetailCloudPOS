@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -21,13 +20,16 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import br.com.sigen.cloudpos.Messages;
 import br.com.sigen.cloudpos.business.ProdutoManager;
 import br.com.sigen.cloudpos.business.VendaBuilder;
 import br.com.sigen.cloudpos.entity.Produto;
+import br.com.sigen.cloudpos.exception.BusinessException;
 import br.com.sigen.cloudpos.view.R;
+import br.com.sigen.cloudpos.view.component.NumberEditText;
 import br.com.sigen.cloudpos.view.pagamento.ActivityPagamento;
 
 public class ActivityPosApp extends FragmentActivity {
@@ -70,7 +72,7 @@ public class ActivityPosApp extends FragmentActivity {
 		btnNovaVenda.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				initVendaAdapter();
+				confirmarNovaVenda();
 			}
 		});
 
@@ -86,18 +88,53 @@ public class ActivityPosApp extends FragmentActivity {
 		btnPagamento.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				try {
+					validarEncerramentoVenda();
+				} catch (BusinessException e) {
+					Toast.makeText(getBaseContext(), e.getMessage(),
+							Toast.LENGTH_LONG).show();
+					return;
+				}
+
 				Intent intent = new Intent(getBaseContext(),
 						ActivityPagamento.class);
 				startActivityForResult(intent, PAGAMENTO_REQUEST_CODE);
 			}
+
 		});
+	}
+
+	private void confirmarNovaVenda() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(Messages.DESEJA_ELIMINAR_VENDA)
+				.setCancelable(false)
+				.setPositiveButton(Messages.SIM,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								resetVendaAdapter();
+							}
+						})
+				.setNegativeButton(Messages.NAO,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
+	private void validarEncerramentoVenda() throws BusinessException {
+		if (!vendaAdapter.getVenda().podeEncerrar()) {
+			throw new BusinessException(Messages.IMPOSSIVEL_ENCERRAR_VENDA);
+		}
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PAGAMENTO_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
-				initVendaAdapter();
+				resetVendaAdapter();
 			}
 		}
 	}
@@ -149,12 +186,12 @@ public class ActivityPosApp extends FragmentActivity {
 	private void configItensVendaList() {
 		listViewItensVenda = (ListView) findViewById(R.id.listViewItensVenda);
 
-		initVendaAdapter();
+		resetVendaAdapter();
 
 		registerForContextMenu(listViewItensVenda);
 	}
 
-	private void initVendaAdapter() {
+	private void resetVendaAdapter() {
 		TextView totalTextView = (TextView) findViewById(R.id.textValorTotal);
 		vendaAdapter = new AdapterVenda(getBaseContext(),
 				VendaBuilder.createVenda(), totalTextView);
@@ -199,20 +236,33 @@ public class ActivityPosApp extends FragmentActivity {
 	}
 
 	private void realizarDescontoVenda() {
+		try {
+			validarDescontoVenda();
+		} catch (BusinessException e) {
+			Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Desconto");
 
 		// Set up the input
-		final EditText input = new EditText(this);
-		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		final NumberEditText input = new NumberEditText(this);
+
 		builder.setView(input);
 
 		// Set up the buttons
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				vendaAdapter.realizarDesconto(new BigDecimal(String
-						.valueOf(input.getText())));
+				try {
+					vendaAdapter.realizarDesconto(input.getNumber());
+				} catch (BusinessException e) {
+					Toast.makeText(getBaseContext(), e.getMessage(),
+							Toast.LENGTH_LONG).show();
+					realizarDescontoVenda();
+				}
 			}
 		});
 		builder.setNegativeButton("Cancelar",
@@ -226,21 +276,32 @@ public class ActivityPosApp extends FragmentActivity {
 		builder.show();
 	}
 
+	private void validarDescontoVenda() throws BusinessException {
+		if (!vendaAdapter.getVenda().podeRealizarDesconto(BigDecimal.ZERO)) {
+			throw new BusinessException(Messages.DESCONTO_VENDA_ZERO);
+		}
+	}
+
 	private void realizarDescontoItemVenda(final int position) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Desconto");
 
 		// Set up the input
-		final EditText input = new EditText(this);
-		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		final NumberEditText input = new NumberEditText(this);
 		builder.setView(input);
 
 		// Set up the buttons
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				vendaAdapter.realizarDescontoItem(position, new BigDecimal(
-						String.valueOf(input.getText())));
+				try {
+					vendaAdapter.realizarDescontoItem(position,
+							input.getNumber());
+				} catch (BusinessException e) {
+					Toast.makeText(getBaseContext(), e.getMessage(),
+							Toast.LENGTH_LONG).show();
+					realizarDescontoItemVenda(position);
+				}
 			}
 		});
 		builder.setNegativeButton("Cancelar",
