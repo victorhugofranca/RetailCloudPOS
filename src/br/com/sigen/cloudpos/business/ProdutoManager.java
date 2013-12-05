@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import br.com.sigen.cloudpos.entity.Produto;
+import br.com.sigen.cloudpos.synchronization.DBManager;
 
 public class ProdutoManager {
 
@@ -21,55 +25,33 @@ public class ProdutoManager {
 		return instance;
 	}
 
-	public List<Produto> find(Produto filter) {
+	public List<Produto> find(Produto filter, Context context) {
 		List<Produto> persistedList = new ArrayList<Produto>();
 
-		persistedList.add(new Produto("001", "Coca-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Guaran‡ Ant‡rcica 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Sprite 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Fanta Laranja 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Fanta Uva 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Soda Lim‹o 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Kuat 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Coca-cola zero 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
-		persistedList.add(new Produto("001", "Schin-cola 330ml", "LT",
-				new BigDecimal("3.30")));
+		DBManager dbManager = new DBManager(context);
+		SQLiteDatabase database = dbManager.getReadableDatabase();
+
+		String[] allColumns = { DBManager.COLUMN_CODIGO,
+				DBManager.COLUMN_DESCRICAO, DBManager.COLUMN_UNIDADE_MEDIDA,
+				DBManager.COLUMN_VALOR_UNITARIO };
+		Cursor cursor = database.query(DBManager.TABLE_PRODUTO, allColumns,
+				null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Produto produto = new Produto();
+
+			produto.setCodigo(cursor.getString(0));
+			produto.setDescricao(cursor.getString(1));
+			produto.setUnidadeMedida(cursor.getString(2));
+			produto.setValorUnitario(new BigDecimal(cursor.getDouble(3)));
+
+			persistedList.add(produto);
+			cursor.moveToNext();
+		}
+		// make sure to close the cursor
+		cursor.close();
+		database.close();
 
 		List<Produto> returnList = new ArrayList<Produto>();
 		if (filter.getDescricao() == null || filter.getDescricao().equals("")) {

@@ -8,8 +8,8 @@
         android:minSdkVersion="13"
         android:targetSdkVersion="18" />
 
-    <uses-permission android:name="android.permission.SET_DEBUG_APP" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,15 +19,19 @@
         <activity
             android:name="br.com.sigen.cloudpos.view.pos.ActivityPosApp"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="br.com.sigen.cloudpos.view.pagamento.ActivityPagamento"
+            android:label="@string/title_activity_pagamento" >
+        </activity>
+        <activity
+            android:name="br.com.sigen.cloudpos.view.main.ActivityCloudRetail"
+            android:label="@string/title_activity_cloud_retail" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="br.com.sigen.cloudpos.view.pagamento.ActivityPagamento"
-            android:label="@string/title_activity_pagamento" >
         </activity>
     </application>
 

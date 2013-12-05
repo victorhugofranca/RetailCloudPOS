@@ -6,6 +6,8 @@ public class ItemPagamento {
 
 	private BigDecimal valor;
 	private String tipoPagamento;
+	private String redeCartao;
+	private Integer parcelas;
 
 	public BigDecimal getValor() {
 		return valor;
@@ -21,6 +23,22 @@ public class ItemPagamento {
 
 	public void setTipoPagamento(String tipoPagamento) {
 		this.tipoPagamento = tipoPagamento;
+	}
+
+	public String getRedeCartao() {
+		return redeCartao;
+	}
+
+	public void setRedeCartao(String redeCartao) {
+		this.redeCartao = redeCartao;
+	}
+
+	public Integer getParcelas() {
+		return parcelas;
+	}
+
+	public void setParcelas(Integer parcelas) {
+		this.parcelas = parcelas;
 	}
 
 }

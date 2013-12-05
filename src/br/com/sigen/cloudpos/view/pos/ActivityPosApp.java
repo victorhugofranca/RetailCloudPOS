@@ -21,7 +21,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import br.com.sigen.cloudpos.Messages;
 import br.com.sigen.cloudpos.business.ProdutoManager;
@@ -30,6 +29,7 @@ import br.com.sigen.cloudpos.entity.Produto;
 import br.com.sigen.cloudpos.exception.BusinessException;
 import br.com.sigen.cloudpos.view.R;
 import br.com.sigen.cloudpos.view.component.NumberEditText;
+import br.com.sigen.cloudpos.view.component.NumberTextView;
 import br.com.sigen.cloudpos.view.pagamento.ActivityPagamento;
 
 public class ActivityPosApp extends FragmentActivity {
@@ -98,6 +98,7 @@ public class ActivityPosApp extends FragmentActivity {
 
 				Intent intent = new Intent(getBaseContext(),
 						ActivityPagamento.class);
+				intent.putExtra("venda", vendaAdapter.getVenda());
 				startActivityForResult(intent, PAGAMENTO_REQUEST_CODE);
 			}
 
@@ -162,9 +163,8 @@ public class ActivityPosApp extends FragmentActivity {
 
 	private void configProdutosList() {
 		final ListView listView = (ListView) findViewById(R.id.listViewProdutos);
-
 		List<Produto> produtos = ProdutoManager.getInstance().find(
-				new Produto());
+				new Produto(), getBaseContext());
 
 		produtosArrayAdapter = new ArrayAdapterProdutos(getBaseContext(),
 				produtos);
@@ -192,10 +192,16 @@ public class ActivityPosApp extends FragmentActivity {
 	}
 
 	private void resetVendaAdapter() {
-		TextView totalTextView = (TextView) findViewById(R.id.textValorTotal);
+		NumberTextView totalTextView = (NumberTextView) findViewById(R.id.textValorTotal);
+		totalTextView.setText(BigDecimal.ZERO);
+		NumberTextView descontoTextView = (NumberTextView) findViewById(R.id.txtDesconto);
+		descontoTextView.setText(BigDecimal.ZERO);
 		vendaAdapter = new AdapterVenda(getBaseContext(),
-				VendaBuilder.createVenda(), totalTextView);
+				VendaBuilder.createVenda(), totalTextView, descontoTextView);
 		listViewItensVenda.setAdapter(vendaAdapter);
+
+		AutoCompleteTextView txtPesquisa = (AutoCompleteTextView) findViewById(R.id.pesquisarProdutoField);
+		txtPesquisa.setText("");
 	}
 
 	@Override
@@ -245,11 +251,10 @@ public class ActivityPosApp extends FragmentActivity {
 		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Desconto");
+		builder.setTitle("Desconto em R$");
 
 		// Set up the input
 		final NumberEditText input = new NumberEditText(this);
-
 		builder.setView(input);
 
 		// Set up the buttons
@@ -284,7 +289,7 @@ public class ActivityPosApp extends FragmentActivity {
 
 	private void realizarDescontoItemVenda(final int position) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Desconto");
+		builder.setTitle("Desconto em R$");
 
 		// Set up the input
 		final NumberEditText input = new NumberEditText(this);
@@ -314,4 +319,5 @@ public class ActivityPosApp extends FragmentActivity {
 
 		builder.show();
 	}
+
 }

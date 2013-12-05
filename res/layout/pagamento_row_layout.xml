@@ -15,16 +15,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@+id/lblTipoPagamento"
             android:textSize="20px" />
 
         <TextView
-            android:id="@+id/lblValorFormaPagamento"
+            android:id="@+id/lblRedeCartao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@+id/lblValorFormaPagamento" />
+            android:textSize="20px" />
 
+        <br.com.sigen.cloudpos.view.component.NumberTextView
+            android:id="@+id/lblValorFormaPagamento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
     </LinearLayout>
-    
+
 </LinearLayout>

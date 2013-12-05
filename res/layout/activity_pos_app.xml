@@ -22,21 +22,21 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="V" />
+                android:text="@string/nova_venda" />
 
             <Button
                 android:id="@+id/btnDescontoVenda"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="D" />
+                android:text="Desconto" />
 
             <Button
                 android:id="@+id/btnPagamento"
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$" />
-
+                android:text="Pagamento" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,19 +53,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <TextView
-                        android:id="@+id/lblTotalTextField"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total: R$"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                        android:layout_height="match_parent"
+                        android:gravity="right"
+                        android:orientation="vertical" >
 
-                    <TextView
-                        android:id="@+id/textValorTotal"
+                        <TextView
+                            android:id="@+id/lblTotalTextField"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total_venda"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/lblDesconto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/desconto"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0,00"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <br.com.sigen.cloudpos.view.component.NumberTextView
+                            android:id="@+id/textValorTotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/zero"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <br.com.sigen.cloudpos.view.component.NumberTextView
+                            android:id="@+id/txtDesconto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/zero"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -78,7 +105,8 @@
                     <ListView
                         android:id="@+id/listViewItensVenda"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="match_parent"
+                        android:background="@color/cupom_color" >
                     </ListView>
                 </LinearLayout>
             </LinearLayout>
@@ -117,7 +145,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 
 </FrameLayout>

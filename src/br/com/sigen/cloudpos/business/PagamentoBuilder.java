@@ -11,7 +11,7 @@ public class PagamentoBuilder {
 	public static final Pagamento createPagamento() {
 		Pagamento pagamento = new Pagamento();
 		pagamento.setValorTotal(BigDecimal.ZERO);
-		pagamento.setSaldoPagamento(BigDecimal.TEN.multiply(BigDecimal.TEN));
+		pagamento.setSaldoPagamento(BigDecimal.ZERO);
 		pagamento.setItensPagamento(new ArrayList<ItemPagamento>());
 		return pagamento;
 	}

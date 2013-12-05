@@ -13,15 +13,17 @@ import br.com.sigen.cloudpos.entity.Produto;
 import br.com.sigen.cloudpos.entity.Venda;
 import br.com.sigen.cloudpos.exception.BusinessException;
 import br.com.sigen.cloudpos.view.R;
+import br.com.sigen.cloudpos.view.component.NumberTextView;
 
 public class AdapterVenda extends ArrayAdapter<ItemVenda> {
 
 	private Context context;
 	private Venda venda;
-	private TextView textViewTotalizador;
+	private NumberTextView textViewTotalizador;
+	private NumberTextView txtDesconto;
 
 	public AdapterVenda(Context context, Venda venda,
-			TextView textViewTotalizador) {
+			NumberTextView textViewTotalizador, NumberTextView txtDesconto) {
 
 		super(context, R.layout.item_venda_row_layout, venda.getItensVenda());
 		this.context = context;
@@ -29,19 +31,12 @@ public class AdapterVenda extends ArrayAdapter<ItemVenda> {
 		this.venda = venda;
 
 		this.textViewTotalizador = textViewTotalizador;
-		textViewTotalizador.setText(String.valueOf(venda.getValorTotal()));
+		this.txtDesconto = txtDesconto;
 
 	}
 
 	public Venda getVenda() {
 		return this.venda;
-	}
-
-	@Override
-	public void clear() {
-		venda.getItensVenda().clear();
-		venda.setValorTotal(BigDecimal.ZERO);
-		notifyDataSetChanged();
 	}
 
 	public void realizarDesconto(BigDecimal valorDesconto)
@@ -52,9 +47,7 @@ public class AdapterVenda extends ArrayAdapter<ItemVenda> {
 
 	public void realizarDescontoItem(int position, BigDecimal valorDesconto)
 			throws BusinessException {
-		ItemVenda itemVenda = venda.getItensVenda().get(position);
-		itemVenda.realizarDesconto(valorDesconto);
-		venda.atualizarItemVenda(position, itemVenda, valorDesconto);
+		venda.realizarDescontoItem(position, valorDesconto);
 		notifyDataSetChanged();
 	}
 
@@ -84,7 +77,8 @@ public class AdapterVenda extends ArrayAdapter<ItemVenda> {
 
 	@Override
 	public void notifyDataSetChanged() {
-		textViewTotalizador.setText(String.valueOf(venda.getValorTotal()));
+		textViewTotalizador.setText(venda.getValorTotal());
+		txtDesconto.setText(venda.getValorDescontos());
 		super.notifyDataSetChanged();
 	}
 
@@ -95,7 +89,7 @@ public class AdapterVenda extends ArrayAdapter<ItemVenda> {
 
 		View rowView = inflater.inflate(R.layout.item_venda_row_layout, parent,
 				false);
-		TextView textView = (TextView) rowView.findViewById(R.id.lblDescricao);
+		TextView textView = (TextView) rowView.findViewById(R.id.lblProdutos);
 		textView.setText(venda.getItensVenda().get(position).getProduto()
 				.getDescricao());
 
@@ -104,10 +98,10 @@ public class AdapterVenda extends ArrayAdapter<ItemVenda> {
 		textView2.setText(venda.getItensVenda().get(position).getProduto()
 				.getUnidadeMedida());
 
-		TextView textView3 = (TextView) rowView
+		NumberTextView textView3 = (NumberTextView) rowView
 				.findViewById(R.id.lblValorFormaPagamento);
-		textView3.setText(String.valueOf(venda.getItensVenda().get(position)
-				.getValorUnitario()));
+		textView3.setText(venda.getItensVenda().get(position)
+				.getValorUnitario());
 
 		return rowView;
 	}

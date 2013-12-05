@@ -4,13 +4,20 @@ import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 
+import br.com.sigen.cloudpos.Messages;
+import br.com.sigen.cloudpos.exception.BusinessException;
+
 public class Pagamento {
 
 	private BigDecimal valorTotal;
 	private List<ItemPagamento> itensPagamento;
 	private BigDecimal saldoPagamento;
 
-	public void addItemPagamento(ItemPagamento itemPagamento) {
+	public void addItemPagamento(ItemPagamento itemPagamento)
+			throws BusinessException {
+
+		verificarValorPagamento(itemPagamento);
+
 		for (Iterator<ItemPagamento> iterator = getItensPagamento().iterator(); iterator
 				.hasNext();) {
 			ItemPagamento itemPagamentoExistente = iterator.next();
@@ -29,6 +36,13 @@ public class Pagamento {
 		setValorTotal(getValorTotal().add(itemPagamento.getValor()));
 		setSaldoPagamento(getSaldoPagamento()
 				.subtract(itemPagamento.getValor()));
+	}
+
+	private void verificarValorPagamento(ItemPagamento itemPagamento)
+			throws BusinessException {
+		if (itemPagamento.getValor().compareTo(BigDecimal.ZERO) <= 0) {
+			throw new BusinessException(Messages.IMPOSSIVEL_PAGAMENTO_ZERO);
+		}
 	}
 
 	public BigDecimal getValorTotal() {

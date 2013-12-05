@@ -14,6 +14,7 @@ import android.widget.TextView;
 import br.com.sigen.cloudpos.business.ProdutoManager;
 import br.com.sigen.cloudpos.entity.Produto;
 import br.com.sigen.cloudpos.view.R;
+import br.com.sigen.cloudpos.view.component.NumberTextView;
 
 public class ArrayAdapterProdutos extends ArrayAdapter<Produto> implements
 		Filterable {
@@ -34,16 +35,16 @@ public class ArrayAdapterProdutos extends ArrayAdapter<Produto> implements
 
 		View rowView = inflater.inflate(R.layout.produto_row_layout, parent,
 				false);
-		TextView textView = (TextView) rowView.findViewById(R.id.lblDescricao);
+		TextView textView = (TextView) rowView.findViewById(R.id.lblProdutos);
 		textView.setText(values.get(position).getDescricao());
 
-		TextView textView2 = (TextView) rowView.findViewById(R.id.lblTipoPagamento);
+		TextView textView2 = (TextView) rowView
+				.findViewById(R.id.lblTipoPagamento);
 		textView2.setText(values.get(position).getUnidadeMedida());
 
-		TextView textView3 = (TextView) rowView
+		NumberTextView textView3 = (NumberTextView) rowView
 				.findViewById(R.id.lblValorFormaPagamento);
-		textView3.setText(String.valueOf(values.get(position)
-				.getValorUnitario()));
+		textView3.setText(values.get(position).getValorUnitario());
 
 		return rowView;
 	}
@@ -52,7 +53,7 @@ public class ArrayAdapterProdutos extends ArrayAdapter<Produto> implements
 	public int getCount() {
 		return values.size();
 	}
-	
+
 	@Override
 	public Produto getItem(int position) {
 		return values.get(position);
@@ -80,13 +81,7 @@ public class ArrayAdapterProdutos extends ArrayAdapter<Produto> implements
 				Produto filtro = new Produto();
 				filtro.setDescricao(String.valueOf(constraint));
 				List<Produto> produtos = ProdutoManager.getInstance().find(
-						filtro);
-
-				for (Iterator iterator = produtos.iterator(); iterator
-						.hasNext();) {
-					Produto produto = (Produto) iterator.next();
-					System.out.println(produto.getDescricao());
-				}
+						filtro, getContext());
 
 				results.count = produtos.size();
 				results.values = produtos;

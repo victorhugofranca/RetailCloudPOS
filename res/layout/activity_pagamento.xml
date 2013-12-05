@@ -12,18 +12,6 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/btnFinalizarPagamentos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ok" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
         <LinearLayout
@@ -38,28 +26,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Dinheiro" />
+                android:text="@string/dinheiro" />
 
             <Button
                 android:id="@+id/btnCartaoDebito"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cartao Débito" />
+                android:text="@string/cartao_debito" />
 
             <Button
                 android:id="@+id/btnCartaoCredito"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cartão Crédito" />
+                android:text="@string/cartao_credito" />
 
             <Button
                 android:id="@+id/btnCheque"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cheque" />
+                android:text="@string/cheque" />
         </LinearLayout>
 
         <LinearLayout
@@ -72,60 +60,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <br.com.sigen.cloudpos.view.component.NumberEditText
-                    android:id="@+id/inputValueText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10" >
-
-                    <requestFocus />
-                </br.com.sigen.cloudpos.view.component.NumberEditText>
-
-                <Button
-                    android:id="@+id/btnConfirmarPagamento"
-                    style="?android:attr/buttonStyleSmall"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:text="Ok" />
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="right" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                    <TextView
+                        android:id="@+id/lblValorTotalVenda"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <TextView
-                    android:id="@+id/lblValorTotalVenda"
+                    <TextView
+                        android:id="@+id/lblSaldoPagamentos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/restante"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total Venda: R$ "
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/txtValorVenda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100.00"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </LinearLayout>
+                    <br.com.sigen.cloudpos.view.component.NumberTextView
+                        android:id="@+id/txtValorVenda"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                    <br.com.sigen.cloudpos.view.component.NumberTextView
+                        android:id="@+id/textSaldoPagamento"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/lblSaldoPagamentos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Saldo à Pagar: R$ "
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
-                    android:id="@+id/textSaldoPagamento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
             <ListView

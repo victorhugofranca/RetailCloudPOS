@@ -1,6 +1,7 @@
 package br.com.sigen.cloudpos.view.component;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 import android.content.Context;
 import android.text.Editable;
@@ -13,6 +14,7 @@ public class NumberEditText extends EditText {
 
 	public NumberEditText(Context context) {
 		super(context);
+		setHint("0,00");
 		configNumberFormat();
 	}
 
@@ -34,40 +36,9 @@ public class NumberEditText extends EditText {
 					int after) {
 			}
 
-			private String current = "";
-
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				// if (s != null && !s.toString().isEmpty()
-				// && !s.toString().equals(current)) {
-				// removeTextChangedListener(this);
-				//
-				// String replaceable = String.format("[%s,.]", NumberFormat
-				// .getCurrencyInstance().getCurrency().getSymbol());
-				// String cleanString = s.toString().replaceAll(replaceable,
-				// "");
-				//
-				// BigDecimal parsed = new BigDecimal(cleanString).setScale(2,
-				// BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100),
-				// BigDecimal.ROUND_FLOOR);
-				//
-				// NumberFormat numberFormat = NumberFormat
-				// .getNumberInstance();
-				//
-				// numberFormat.setMaximumFractionDigits(2);
-				// numberFormat.setMinimumIntegerDigits(1);
-				// numberFormat.setGroupingUsed(true);
-				//
-				// String formated = numberFormat.format(parsed);
-				//
-				// current = formated;
-				// setText(formated);
-				// setSelection(formated.length());
-				//
-				// addTextChangedListener(this);
-				// }
-
 				if (!s.toString().matches(
 						"(\\d{1,3}(\\.\\d{3})*|(\\d+))(\\,\\d{2})")) {
 					String userInput = ""
@@ -89,7 +60,17 @@ public class NumberEditText extends EditText {
 	}
 
 	public BigDecimal getNumber() {
-		return new BigDecimal(String.valueOf(getText()).replaceAll(",", "."));
+		if (!String.valueOf(getText()).isEmpty())
+			return new BigDecimal(String.valueOf(getText())
+					.replaceAll(",", "."));
+		return BigDecimal.ZERO;
+	}
+
+	public void setText(BigDecimal number) {
+		NumberFormat numberFormat = NumberFormat.getNumberInstance();
+		numberFormat.setMinimumFractionDigits(2);
+
+		super.setText(numberFormat.format(number));
 	}
 
 	public void clear() {

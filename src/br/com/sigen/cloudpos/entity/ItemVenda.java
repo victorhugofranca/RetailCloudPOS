@@ -1,12 +1,15 @@
 package br.com.sigen.cloudpos.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import br.com.sigen.cloudpos.Messages;
 import br.com.sigen.cloudpos.exception.BusinessException;
 
-public class ItemVenda {
+public class ItemVenda implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private String indice;
 	private Produto produto;
 	private BigDecimal quantidade;

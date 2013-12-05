@@ -11,5 +11,22 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_pagamento">PagamentoActivity</string>
+    <string name="desconto">Desconto: </string>
+    <string name="total_venda">Total: </string>
+    <string name="zero">0,00</string>
+    <string name="encerrar_venda">Encerrar</string>
+    <string name="dinheiro">Dinheiro</string>
+    <string name="cartao_credito">Cartão Crédito</string>
+    <string name="cartao_debito">Cartao Débito</string>
+    <string name="cheque">Cheque</string>
+    <string name="ok">Ok</string>
+    <string name="total">"Total: R$ "</string>
+    <string name="restante">"Restante: R$ "</string>
+    <string name="nova_venda">Nova Venda</string>
+    <string name="pagamento">Pagamento</string>
+    <string name="atualizar_dados">Atualizar Dados</string>
+    <string name="title_activity_cloud_retail">CloudRetail</string>
+    <string name="btn_atualizar">Atualizar</string>
+    <string name="btn_pos">POS</string>
 
 </resources>

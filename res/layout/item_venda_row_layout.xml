@@ -5,11 +5,10 @@
     android:orientation="horizontal" >
 
     <TextView
-        android:id="@+id/lblDescricao"
+        android:id="@+id/lblProdutos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@+id/lblDescricao"
         android:textSize="20px" >
     </TextView>
 
@@ -17,14 +16,12 @@
         android:id="@+id/lblTipoPagamento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@+id/lblTipoPagamento" />
+        android:layout_weight="1" />
 
-    <TextView
+    <br.com.sigen.cloudpos.view.component.NumberTextView
         android:id="@+id/lblValorFormaPagamento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@+id/lblValorFormaPagamento" />
+        android:layout_weight="1" />
 
 </LinearLayout>

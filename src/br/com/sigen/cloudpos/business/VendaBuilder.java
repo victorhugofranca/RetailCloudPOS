@@ -12,6 +12,7 @@ public class VendaBuilder {
 		Venda venda = new Venda();
 		venda.setItensVenda(new ArrayList<ItemVenda>());
 		venda.setValorTotal(BigDecimal.ZERO);
+		venda.setValorDescontos(BigDecimal.ZERO);
 		return venda;
 	}
 
